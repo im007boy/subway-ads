@@ -4,7 +4,7 @@
  */
 
 require.config({
-    urlArgs: "v=" +  1,
+    urlArgs: "",
     baseUrl: 'js/'
 });
 
@@ -21,8 +21,8 @@ requireScript = function (scripts, callback) {
 
     next();
 };
-requireScript(['lib/dat.gui', 'lib/easeljs-0.5.0.min'], function(){
-    require(['domready', 'lib/preloadjs-0.2.0.min', 'lib/tweenjs-0.3.0.min'],function(domReady){
+requireScript(['lib/dat.gui', 'lib/easeljs-0.5.0.min', 'lib/preloadjs-0.2.0.min', 'lib/tweenjs-0.3.0.min'], function(){
+    require(['domready'],function(domReady){
         domReady(function(){
             require(['demo-easel']);
         });
