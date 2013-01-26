@@ -9,12 +9,16 @@ require.config({
 });
 
 requireScript = function (scripts, callback) {
+    var title = document.title;
+    var total = scripts.length;
     function next() {
         if (scripts.length === 0) {
             callback && callback();
+            document.title = title;
             return;
         }
         require([scripts.shift()], function () {
+            document.title = 'loading...' + (total - scripts.length) + '/' + total;
             next();
         });
     }

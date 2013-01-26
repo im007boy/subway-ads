@@ -48,7 +48,7 @@ function init(event) {
     }
 
     var trainConfig = {
-        speed: 10
+        speed: 900
     };
     createjs.Ticker.addListener(function(){
         wall.x -= trainConfig.speed;
