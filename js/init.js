@@ -18,7 +18,7 @@ requireScript = function (scripts, callback) {
             return;
         }
         require([scripts.shift()], function () {
-            document.title = 'loading...' + (total - scripts.length) + '/' + total;
+            document.title = (total - scripts.length) + '/' + total;
             next();
         });
     }
