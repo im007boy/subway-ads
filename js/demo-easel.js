@@ -22,7 +22,7 @@ function startDemo(layer){
         marginRight: 1000
     };
     for (var i = 0;i < 2;i ++){
-        ad = new createjs.Bitmap( preload.getResult('ad2').result );
+        ad = new createjs.Bitmap( preload.getResult('ad').result );
         wall.addChild( ad );
         ad.x = i * (adConfig.marginRight + adConfig.width);
         ad.y = 0;
@@ -84,9 +84,7 @@ function init() {
         startDemo(demoLayer);
     }, this);
     preload.loadManifest([{
-        id: 'ad2', src: 'image/ad2.png'
-    },{
-        id: 'ad1', src: 'image/ad1.png'
+        id: 'ad', src: 'image/ad.png'
     }]);
 
 
