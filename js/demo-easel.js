@@ -85,6 +85,8 @@ function init() {
     }, this);
     preload.loadManifest([{
         id: 'ad2', src: 'image/ad2.png'
+    },{
+        id: 'ad1', src: 'image/ad1.png'
     }]);
 
 
