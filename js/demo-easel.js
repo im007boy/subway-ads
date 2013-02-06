@@ -2,36 +2,19 @@
  * Date: 13-1-26
  * Desc:
  */
+
 var preload = new createjs.PreloadJS();
-preload.onComplete = init;
-preload.loadManifest([{
-    id: 'ad1', src: 'image/ad1.png'
-},{
-    id: 'ad2', src: 'image/ad2.png'
-}]);
-
-function init(event) {
-    var canvas = document.createElement('canvas');
-    canvas.setAttribute('width','800');
-    canvas.setAttribute('height','600');
-    var stage = new createjs.Stage(canvas);
-    stage.width = canvas.width;
-    stage.height = canvas.height;
-    document.getElementById('cr-stage').appendChild(stage.canvas);
-
-    createjs.Ticker.init();
-    createjs.Ticker.setFPS(60);
-    createjs.Ticker.addListener(stage, true);
+function startDemo(layer){
 
     var bg = new createjs.Shape();
     bg.graphics.clear().beginFill(createjs.Graphics.getRGB(0, 0, 0, 1))
-        .drawRoundRect(0, 0, stage.width, stage.height, 0).endFill();
+        .drawRoundRect(0, 0, layer.width, layer.height, 0).endFill();
     //bg.cache(0, 0, stage.width, stage.height);
-    stage.addChild(bg);
+    layer.addChild(bg);
 
     var wall = new createjs.Container();
     wall.y = 100;
-    stage.addChild(wall);
+    layer.addChild(wall);
     var ad;
     var adConfig = {
         width: 400,
@@ -63,3 +46,47 @@ function init(event) {
     });
 
 }
+function proxy(fn, scope){
+    return function(){
+        fn.apply(scope, arguments);
+    }
+}
+function init() {
+    var canvas = document.createElement('canvas');
+    canvas.setAttribute('width','800');
+    canvas.setAttribute('height','600');
+    var stage = new createjs.Stage(canvas);
+    stage.width = canvas.width;
+    stage.height = canvas.height;
+    document.getElementById('cr-stage').appendChild(stage.canvas);
+
+    createjs.Ticker.init();
+    createjs.Ticker.setFPS(60);
+    createjs.Ticker.addListener(stage, true);
+
+    var demoLayer = new createjs.Container();
+    demoLayer.width = stage.width;
+    demoLayer.height = stage.height;
+    demoLayer.visible = false;
+    stage.addChild( demoLayer );
+
+    var loadingLayer = new createjs.Container();
+    loadingText = new createjs.Text('...');
+    loadingLayer.addChild(loadingText);
+    stage.addChild(loadingLayer);
+
+    preload.onProgress = proxy(function(e){
+        loadingText.text = e.loaded + '/' + e.total;
+    }, this);
+    preload.onComplete = proxy(function(){
+        loadingLayer.visible = false;
+        demoLayer.visible = true;
+        startDemo(demoLayer);
+    }, this);
+    preload.loadManifest([{
+        id: 'ad2', src: 'image/ad2.png'
+    }]);
+
+
+}
+init();
